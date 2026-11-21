@@ -1,0 +1,27 @@
+stages:
+  build_features:
+    cmd: python -m src.feature_store
+    deps:
+      - wine.csv
+      - src/feature_store.py
+      - requirements.txt
+    outs:
+      - data/processed/wine_features.csv
+      - feature_store/schema.json
+  train:
+    cmd: python -m src.train
+    deps:
+      - data/processed/wine_features.csv
+      - feature_store/schema.json
+      - src/feature_store.py
+      - src/train.py
+      - requirements.txt
+    params:
+      - params.yaml:
+          - split
+          - cv
+          - models
+    outs:
+      - models/best_model.joblib
+    metrics:
+      - metrics/summary.json

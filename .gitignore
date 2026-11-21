@@ -1,1 +1,11 @@
 /wine.csv
+/mlflow.db
+/mlflow.db-shm
+/mlflow.db-wal
+/mlruns/
+/mlartifacts/
+/predictions.csv
+__pycache__/
+*.py[cod]
+/.pytest_cache/
+/.venv/

@@ -1,0 +1,72 @@
+schema: '2.0'
+stages:
+  build_features:
+    cmd: python -m src.feature_store
+    deps:
+    - path: requirements.txt
+      hash: md5
+      md5: 1eabee752f110989b0ed2362a6a3817b
+      size: 87
+    - path: src/feature_store.py
+      hash: md5
+      md5: 6ea53e9eba80041e69147b5877311d88
+      size: 2949
+    - path: wine.csv
+      hash: md5
+      md5: e6dccd29b15c08636f50bd2c0fd80a6a
+      size: 12440
+    outs:
+    - path: data/processed/wine_features.csv
+      hash: md5
+      md5: 0b948cb9528820f5439c0196594305ac
+      size: 13050
+    - path: feature_store/schema.json
+      hash: md5
+      md5: 3c5eb273d3cc7e7be57d1660de9c1600
+      size: 422
+  train:
+    cmd: python -m src.train
+    deps:
+    - path: data/processed/wine_features.csv
+      hash: md5
+      md5: 0b948cb9528820f5439c0196594305ac
+      size: 13050
+    - path: feature_store/schema.json
+      hash: md5
+      md5: 3c5eb273d3cc7e7be57d1660de9c1600
+      size: 422
+    - path: requirements.txt
+      hash: md5
+      md5: 1eabee752f110989b0ed2362a6a3817b
+      size: 87
+    - path: src/feature_store.py
+      hash: md5
+      md5: 6ea53e9eba80041e69147b5877311d88
+      size: 2949
+    - path: src/train.py
+      hash: md5
+      md5: 9161512dd45108ae7b403c886edeffcd
+      size: 6099
+    params:
+      params.yaml:
+        cv:
+          folds: 5
+        models:
+          logistic_regression:
+            max_iter: 2000
+          random_forest:
+            n_estimators: 200
+          svc:
+            c: 1.0
+        split:
+          test_size: 0.2
+          random_state: 42
+    outs:
+    - path: metrics/summary.json
+      hash: md5
+      md5: 80fbeefc0487ac9def44271ed9e95e39
+      size: 778
+    - path: models/best_model.joblib
+      hash: md5
+      md5: 4d2967d323e156d35bffb051e9ba252e
+      size: 11493
